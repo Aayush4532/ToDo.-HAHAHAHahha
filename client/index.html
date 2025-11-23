@@ -302,7 +302,7 @@
 
         async function fetchTasks() {
             try {
-                const res = await fetch("http://localhost:1102/api/todos");
+                const res = await fetch("https://todo-hahahahahha.onrender.com/api/todos");
                 const data = await res.json();
 
                 tasks = data.tasks.map((t, i) => ({
@@ -321,7 +321,7 @@
             if (!text.trim()) return;
 
             try {
-                await fetch("http://localhost:1102/api/task", {
+                await fetch("https://todo-hahahahahha.onrender.com/api/task", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ task: text.trim() })
@@ -336,7 +336,7 @@
 
         async function removeTask(id) {
             try {
-                await fetch("http://localhost:1102/api/task", {
+                await fetch("https://todo-hahahahahha.onrender.com/api/task", {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ id })
