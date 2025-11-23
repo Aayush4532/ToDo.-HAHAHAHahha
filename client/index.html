@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do — Aesthetic</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg1: #0f1724;
+            /* deep navy */
+            --bg2: #061018;
+            /* darker */
+            --glass: rgba(255, 255, 255, 0.03);
+            --accent: #7c5cff;
+            /* violet */
+            --accent-2: #00ffd1;
+            /* teal */
+            --muted: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(800px 400px at 10% 20%, rgba(124, 92, 255, 0.12), transparent 6%),
+                radial-gradient(600px 300px at 90% 80%, rgba(0, 255, 209, 0.06), transparent 8%),
+                linear-gradient(180deg, var(--bg1), var(--bg2));
+            color: #e6eef8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 980px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            padding: 22px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 40px rgba(2, 6, 23, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            overflow: hidden;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .branding {
+            display: flex;
+            gap: 14px;
+            align-items: center
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #031018;
+            font-family: Poppins;
+            font-size: 18px;
+            box-shadow: 0 6px 18px rgba(124, 92, 255, 0.12);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: 0.2px
+        }
+
+        p.lead {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* Input area */
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .add {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: var(--glass);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .add input[type="text"] {
+            background: transparent;
+            border: 0;
+            outline: none;
+            color: inherit;
+            font-size: 15px;
+            width: 380px;
+            min-width: 140px
+        }
+
+        .btn {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border: 0;
+            padding: 8px 12px;
+            border-radius: 10px;
+            color: #031018;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(124, 92, 255, 0.12);
+        }
+
+        /* Main list */
+        .board {
+            flex: 1;
+            display: flex;
+            gap: 18px;
+            overflow: hidden
+        }
+
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: transparent;
+            padding: 8px;
+            border-radius: 12px;
+            min-width: 0
+        }
+
+        .column .inner {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 12px;
+            padding: 12px;
+            height: 100%;
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.02)
+        }
+
+        .todo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+            border-left: 4px solid rgba(124, 92, 255, 0.2);
+            transition: transform .18s ease, box-shadow .18s ease
+        }
+
+        .todo:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6)
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer
+        }
+
+        .title {
+            flex: 1
+        }
+
+        .title h3 {
+            margin: 0;
+            font-size: 15px
+        }
+
+        .title p {
+            margin: 4px 0 0 0;
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .meta {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .chip {
+            font-size: 12px;
+            padding: 6px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            color: var(--muted)
+        }
+
+        .empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.12);
+            height: 100%;
+            font-size: 14px
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* Responsive */
+        @media (max-width:720px) {
+            .app {
+                padding: 16px;
+                height: 95vh
+            }
+
+            .add input[type="text"] {
+                width: 160px
+            }
+
+            .board {
+                flex-direction: column
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+        <header>
+            <div class="branding">
+                <div class="logo">TD</div>
+                <div>
+                    <h1>To Do</h1>
+                    <p class="lead">your tasks, elevated.</p>
+                </div>
+            </div>
+            <div class="controls">
+                <div class="add">
+                    <input id="taskInput" type="text" placeholder="Add a new task..." aria-label="New task">
+                    <button id="addBtn" class="btn">Add</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="board">
+            <div class="column">
+                <div class="inner" id="todoList">
+                    <div class="empty">No tasks — add something to get aesthetic</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div id="counts">0 tasks</div>
+            <div>Tip: press Enter to add · Click a task to toggle complete</div>
+        </footer>
+    </main>
+
+    <script>
+        let tasks = [];
+
+        const input = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const listEl = document.getElementById('todoList');
+        const counts = document.getElementById('counts');
+
+
+        async function fetchTasks() {
+            try {
+                const res = await fetch("http://localhost:1102/api/todos");
+                const data = await res.json();
+
+                tasks = data.tasks.map((t, i) => ({
+                    id: i,
+                    text: t,
+                    done: false
+                }));
+
+                render();
+            } catch (err) {
+                console.error("GET ERROR:", err);
+            }
+        }
+
+        async function addTask(text) {
+            if (!text.trim()) return;
+
+            try {
+                await fetch("http://localhost:1102/api/task", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ task: text.trim() })
+                });
+
+                input.value = "";
+                await fetchTasks();
+            } catch (err) {
+                console.error("POST ERROR:", err);
+            }
+        }
+
+        async function removeTask(id) {
+            try {
+                await fetch("http://localhost:1102/api/task", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id })
+                });
+
+                await fetchTasks();
+            } catch (err) {
+                console.error("DELETE ERROR:", err);
+            }
+        }
+
+        async function toggle(id) {
+            tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+            render();
+        }
+
+
+        function render() {
+            listEl.innerHTML = "";
+
+            if (!tasks.length) {
+                listEl.innerHTML = '<div class="empty">No tasks — add something to get aesthetic</div>';
+                counts.textContent = "0 tasks";
+                return;
+            }
+
+            counts.textContent = `${tasks.length} task${tasks.length > 1 ? "s" : ""}`;
+
+            tasks.forEach(t => {
+                const el = document.createElement("div");
+                el.className = "todo";
+
+                el.innerHTML = `
+            <div class="checkbox">${t.done ? "✓" : ""}</div>
+            <div class="title">
+                <h3 style="text-decoration:${t.done ? "line-through" : ""};opacity:${t.done ? 0.6 : 1}">
+                    ${escapeHtml(t.text)}
+                </h3>
+            </div>
+
+            <div class="meta">
+                <button title="Delete" 
+                    style="background:transparent;border:0;color:rgba(255,255,255,0.3);cursor:pointer">
+                    ✕
+                </button>
+            </div>
+        `;
+
+                el.querySelector(".checkbox").addEventListener("click", () => toggle(t.id));
+
+                el.querySelector(".meta button").addEventListener("click", () => removeTask(t.id));
+
+                listEl.appendChild(el);
+            });
+        }
+
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, s => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            })[s]);
+        }
+
+
+        addBtn.addEventListener("click", () => addTask(input.value));
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") addTask(input.value);
+        });
+
+        fetchTasks();
+
+    </script>
+</body>
+
+</html>
